@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assados da Família</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="img/favicon.png" type="image/png" />
+
+    <!-- Bibliotecas -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Fonte Genty Sans -->
+    <link href="https://fonts.cdnfonts.com/css/genty-sans" rel="stylesheet" />
+    <style>
+      body {
+        font-family: 'Genty Sans', sans-serif;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="logo-topo">
+        <img src="img/logo.png" alt="Logo Assados da Família" />
+      </div>
+      <div class="banner-container">
+        <img
+          class="banner-img"
+          src="https://cdn.pixabay.com/photo/2017/05/07/08/56/chicken-2292357_1280.jpg"
+          alt="Frango Assado"
+        />
+        <div class="header-buttons"></div>
+      </div>
+      <div class="site-info">
+        <h1>Assados da Família</h1>
+        <p id="local">Enseada da Pinheira</p>
+      </div>
+    </header>
+
+    <!-- Tela Inicial -->
+    <section class="formulario" id="tela-inicial">
+      <h2>Bem-vindo ao Assados da Família!</h2>
+      <p>
+        Para fazer um pedido, você precisa criar uma conta ou entrar em uma existente.
+      </p>
+      <div class="form-buttons">
+        <button class="btn-principal" onclick="mostrarLogin()">Entrar</button>
+        <button class="btn-principal" onclick="mostrarRegistro()">Criar Conta</button>
+      </div>
+    </section>
+
+    <!-- Formulário de Login -->
+    <section id="form-login" class="formulario" style="display: none;">
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="E-mail" required />
+      <input type="password" id="loginSenha" placeholder="Senha" required />
+      <button class="btn-principal" onclick="fazerLogin()">Entrar</button>
+      <p style="margin-top: 10px; color: #e74c3c; cursor: pointer;" onclick="mostrarRegistro()">
+        Ainda não tem uma conta? <strong>Criar agora</strong>
+      </p>
+    </section>
+
+    <!-- Formulário de Registro -->
+    <section id="form-registro" class="formulario" style="display: none;">
+      <h2>Criar Conta</h2>
+      <input type="text" id="novoNome" placeholder="Nome Completo" required />
+      <input type="email" id="novoEmail" placeholder="E-mail" required />
+      <input type="password" id="novaSenha" placeholder="Senha" required />
+      <button class="btn-principal" onclick="registrarUsuario()">Registrar</button>
+      <p style="margin-top: 10px; color: #e74c3c; cursor: pointer;" onclick="mostrarLogin()">
+        Já tem uma conta? <strong>Entrar</strong>
+      </p>
+    </section>
+
+    <!-- Formulário de Pedido -->
+    <section class="formulario" id="form-pedido" style="display: none;">
+      <h2>Faça seu Pedido!</h2>
+      <form id="cadastroForm">
+        <input type="text" id="nome" placeholder="Nome" required />
+        <input type="text" id="sobrenome" placeholder="Sobrenome" required />
+        <input type="tel" id="telefone" placeholder="Telefone (com DDD)" required />
+        <button type="button" onclick="verificarTelefone()">
+          <i class="fas fa-sms"></i> Verificar Telefone
+        </button>
+        <input
+          type="text"
+          id="codigoTelefone"
+          placeholder="Código de Verificação"
+          style="display: none"
+        />
+
+        <input type="text" id="endereco" placeholder="Endereço" required />
+        <input type="text" id="referencia" placeholder="Ponto de Referência" required />
+
+        <input type="email" id="email" placeholder="E-mail" required />
+        <button type="button" onclick="enviarCodigoEmail()">
+          <i class="fas fa-envelope"></i> Verificar E-mail
+        </button>
+        <input
+          type="text"
+          id="codigoEmail"
+          placeholder="Código de Verificação"
+          style="display: none"
+        />
+
+        <h3>Escolha seu pedido:</h3>
+        <img
+          src="img/frangoIlustracion.png"
+          alt="Imagem do Produto"
+          class="img-pedido"
+        />
+        <select id="pedido" required>
+          <option value="Frango Inteiro">Frango Inteiro - R$49,95</option>
+          <option value="Meio Frango">Meio Frango - R$29,45</option>
+          <option value="Combo">Frango Inteiro + Coca-Cola - R$59,95</option>
+        </select>
+
+        <button type="submit" class="btn-principal">
+          <i class="fas fa-check-circle"></i> Finalizar Pedido
+        </button>
+      </form>
+
+      <!-- Botão de logout -->
+      <button type="button" class="btn-principal" onclick="fazerLogout()" style="margin-top: 15px;">
+        <i class="fas fa-sign-out-alt"></i> Sair
+      </button>
+    </section>
+
+    <!-- Área do Dono -->
+    <section class="admin">
+      <h2>Área do Dono</h2>
+      <button class="btn-admin" onclick="loginDono()">
+        <i class="fas fa-user-shield"></i> Login como Dono
+      </button>
+      <div id="dadosClientes" style="display: none; margin-top: 20px"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Assados da Família - Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+  </body>
+</html>
